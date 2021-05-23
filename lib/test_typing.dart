@@ -158,8 +158,6 @@ class TypingTest1 extends StatefulWidget {
 }
 
 class _TypingTestState extends State<TypingTest1> {
-
-
   @override
   void initState() {
     super.initState();
@@ -186,6 +184,20 @@ class _TypingTestState extends State<TypingTest1> {
   @override
   void didUpdateWidget(covariant TypingTest1 oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (widget._typingTest == null) {
+      updateTestData();
+    }
+    if (widget._buttons.length == 0)
+      setState(() {
+        widget._buttons = List.from(widget._typingTest.buttons);
+      });
+    if (widget._buttonHighlightList.length == 0)
+      setState(() {
+        List<bool> buttonHighlightList = [];
+        for (int x = 0; x < buttonCount; ++x) buttonHighlightList.add(false);
+
+        widget._buttonHighlightList = List.from(buttonHighlightList);
+      });
   }
 
   @override
@@ -199,14 +211,14 @@ class _TypingTestState extends State<TypingTest1> {
     widget._buttons.asMap().forEach((idx, buttonText) => buttonList.add(
           buildBlankButton(buttonText, () {
             if (buttonText.length == 0) return;
-            if (widget._typingTest.guess(idx, buttonText, widget._userData.length)) {
+            if (widget._typingTest
+                .guess(idx, buttonText, widget._userData.length)) {
+              List<bool> buttonHighlightList = [];
+              for (int x = 0; x < buttonCount; ++x)
+                buttonHighlightList.add(false);
               setState(() {
                 widget._userData.add(buttonText);
                 widget._buttons[idx] = '';
-                List<bool> buttonHighlightList = [];
-                for (int x = 0; x < buttonCount; ++x)
-                  buttonHighlightList.add(false);
-
                 widget._buttonHighlightList = List.from(buttonHighlightList);
               });
             } else {
@@ -250,19 +262,19 @@ class _TypingTestState extends State<TypingTest1> {
             child: Column(
               children: [
                 Row(
-                  children: buttonList.sublist(0, 19),
+                  children: buttonList.sublist(0, 20),
                   mainAxisSize: MainAxisSize.min,
                 ),
                 Row(
-                  children: buttonList.sublist(20, 39),
+                  children: buttonList.sublist(20, 40),
                   mainAxisSize: MainAxisSize.min,
                 ),
                 Row(
-                  children: buttonList.sublist(40, 59),
+                  children: buttonList.sublist(40, 60),
                   mainAxisSize: MainAxisSize.min,
                 ),
                 Row(
-                  children: buttonList.sublist(60, 79),
+                  children: buttonList.sublist(60, 80),
                   mainAxisSize: MainAxisSize.min,
                 ),
               ],

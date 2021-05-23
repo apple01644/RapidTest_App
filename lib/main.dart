@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String dbAnswer = '제 3차 국민생명 경험표';
 
   // String case01 = '동해물과 백두산이 마르고 닳도록';
-  String case01 = '223[동해]물과 [백두산]이 마르고 닳도록';
+  String case01 = '[동해]물과 [백두산]이 마르고 닳도록';
 
   @override
   Widget build(BuildContext context) {
