@@ -47,7 +47,12 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-  #   - images/a_dot_burr.jpeg
+    - assets/text/0523-금융사고예방지침.txt
+    - assets/text/0524-금융실명제.txt
+    - assets/text/0525-자금세탁방지법.txt
+    - assets/text/0526-여신 기본용어 프로세스.txt
+    - assets/text/0527-가계자금대출 취급기준의 이해.txt
+  #  - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

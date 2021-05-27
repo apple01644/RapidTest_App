@@ -18,7 +18,7 @@ class TestTypingToken {
   const TestTypingToken({this.content, this.type});
 }
 
-const int buttonCount = 80;
+const int buttonCount = 30;
 
 class TypingTest {
   List<TestTypingToken> tokenList = [];
@@ -134,7 +134,9 @@ Widget buildBlankButton(String content, VoidCallback onPressed, int idx,
         style: OutlinedButton.styleFrom(
             minimumSize: Size(36, 36),
             alignment: Alignment.center,
-            backgroundColor: Color(highlight ? 0xFFFF0000 : 0xFFFFFFFF),
+            backgroundColor: Color(content.length == 0
+                ? 0xFF00A000
+                : (highlight ? 0xFFFF0000 : 0xFFFFFFFF)),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8))))),
     width: 36,
@@ -161,7 +163,7 @@ class _TypingTestState extends State<TypingTest1> {
   @override
   void initState() {
     super.initState();
-
+    print('INIT');
     setState(() {
       List<bool> buttonHighlightList = [];
       for (int x = 0; x < buttonCount; ++x) buttonHighlightList.add(false);
@@ -174,7 +176,7 @@ class _TypingTestState extends State<TypingTest1> {
 
   void updateTestData() {
     setState(() {
-      print('GGGG');
+      print('UPDATE');
       widget._typingTest = TypingTest(widget.testCase);
       widget._buttons = List.from(widget._typingTest.buttons);
       widget._tokenList = List.from(widget._typingTest.tokenList);
@@ -184,7 +186,8 @@ class _TypingTestState extends State<TypingTest1> {
   @override
   void didUpdateWidget(covariant TypingTest1 oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget._typingTest == null) {
+    print('DID UPDATE');
+ /*   if (widget._typingTest == null) {
       updateTestData();
     }
     if (widget._buttons.length == 0)
@@ -197,12 +200,12 @@ class _TypingTestState extends State<TypingTest1> {
         for (int x = 0; x < buttonCount; ++x) buttonHighlightList.add(false);
 
         widget._buttonHighlightList = List.from(buttonHighlightList);
-      });
+      });*/
   }
 
   @override
   Widget build(BuildContext context) {
-    print('AAAAAAAAAAAA');
+    print('BUILD');
     print(widget.testCase);
     print(widget._buttons.length);
     print(widget._typingTest == null);
@@ -257,30 +260,26 @@ class _TypingTestState extends State<TypingTest1> {
               children: spanList,
             ),
             alignment: Alignment.center,
-            height: 360.0 - 40 * 4),
+            height: 340.0 - 40 * 3),
         Container(
             child: Column(
               children: [
                 Row(
-                  children: buttonList.sublist(0, 20),
+                  children: buttonList.sublist(0, 10),
                   mainAxisSize: MainAxisSize.min,
                 ),
                 Row(
-                  children: buttonList.sublist(20, 40),
+                  children: buttonList.sublist(10, 20),
                   mainAxisSize: MainAxisSize.min,
                 ),
                 Row(
-                  children: buttonList.sublist(40, 60),
-                  mainAxisSize: MainAxisSize.min,
-                ),
-                Row(
-                  children: buttonList.sublist(60, 80),
+                  children: buttonList.sublist(20, 30),
                   mainAxisSize: MainAxisSize.min,
                 ),
               ],
               mainAxisSize: MainAxisSize.min,
             ),
-            height: 40.0 * 4),
+            height: 40.0 * 3),
       ]),
       fit: BoxFit.fill,
     ));
