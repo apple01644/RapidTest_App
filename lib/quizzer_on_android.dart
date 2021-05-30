@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+const displayWidth = 836.2;
+const displayHeight = 411.4;
+
 const paper_text_style =
     TextStyle(fontFamily: 'NanumGothicCoding', fontSize: 32);
 const paper_text_style_hidden = TextStyle(
@@ -272,19 +275,24 @@ List exportTestData(String string) {
 
     if (mode == 'plain') {
       if (ch == '[') {
-        result.add(buffer);
+        if (buffer.length > 0) result.add(buffer);
         testTyping = TestTyping();
         putWrong = false;
         buffer = '';
         mode = 'typing';
       } else if (ch == '{') {
-        result.add(buffer);
+        if (buffer.length > 0) result.add(buffer);
         buffer = '';
         testNumber = TestNumber();
         putWrong = false;
         mode = 'number';
-      } else
+      } else if (ch.codeUnitAt(0) == 13) {
+        if (buffer.length > 0) result.add(buffer);
+        result.add('\n');
+        buffer = '';
+      } else {
         buffer += ch;
+      }
     } else if (mode == 'number') {
       if (ch == '@') {
         mode = 'ordered_set';
@@ -364,10 +372,10 @@ List exportTestData(String string) {
   if (mode == 'plain' && buffer.length > 0) result.add(buffer);
 
   for (var item in result) {
-    if (item is TestTyping)
-      print('@@[' + item.answer + ']@@');
-    else
-      print(item);
+    //if (item is TestTyping)
+    //  print('@@[' + item.answer + ']@@');
+    //else
+    //`  print(item);
   }
 
   return result;

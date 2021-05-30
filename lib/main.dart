@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:quizzer_on_android/quizzer_on_android.dart';
+import 'package:quizzer_on_android/test.dart';
 
 Future<String> loadAsset(String filename) async {
   return await rootBundle.loadString('assets/text/' + filename + '.txt');
@@ -71,26 +72,6 @@ class IndexControl extends StatelessWidget {
   }
 }
 
-class Test extends StatelessWidget {
-  final List testData;
-
-  Test({this.testData});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Wrap(
-            children: testData.map<Widget>((e) {
-      if (e is String)
-        return Text(e);
-      else if (e is TestNumber)
-        return Text('[' + formatKoreanNumber(e.answer) + ']');
-      else
-        return Text('[' + e.answer.toString() + ']');
-    }).toList()));
-  }
-}
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title, this.dataset}) : super(key: key);
   final String title;
@@ -101,6 +82,7 @@ class MyHomePage extends StatefulWidget {
   String mode = '0523-금융사고예방지침';
   String content = '';
   List testData;
+  int testSequence = 0;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -119,6 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
       color: Color(0xffff0000),
     );
 
+    print(MediaQuery.of(context).size);
+
     final dropdownItems = widget.dataset.keys
         .map<DropdownMenuItem<String>>((e) => DropdownMenuItem<String>(
               child: Text(e),
@@ -135,7 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         body: Column(children: [
       taskBar,
-      Expanded(child: Test(testData: widget.testData)),
+      Expanded(
+          child: Test(testData: widget.testData, seq: widget.testSequence)),
       Container(
         child: Row(children: [
           IndexControl(
@@ -143,14 +128,19 @@ class _MyHomePageState extends State<MyHomePage> {
               dataCount: widget.dataset.length,
               onChange: (int data) => setState(() {
                     widget.dataIndex = data;
+                    String newMode =
+                        widget.dataset.keys.elementAt(widget.dataIndex);
+                    widget.mode = newMode;
+                    widget.testData = exportTestData(widget.dataset[newMode]);
+                    widget.testSequence = widget.testSequence + 1;
                   })),
           DropdownButton<String>(
               items: dropdownItems,
               value: widget.mode,
               onChanged: (String newMode) => setState(() {
-                    print('NEW MODE: ' + newMode);
                     widget.mode = newMode;
                     widget.testData = exportTestData(widget.dataset[newMode]);
+                    widget.testSequence = widget.testSequence + 1;
                   }))
           //TypingTest1(testCase: dataset[0]),
         ]),
