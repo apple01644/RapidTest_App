@@ -23,6 +23,9 @@ void main() async {
     '0525-자금세탁방지법',
     '0526-여신 기본용어 프로세스',
     '0527-가계자금대출 취급기준의 이해',
+    '0529-주택담보대출의 이해',
+    '0531-예금신규',
+    '0531-주택청약상품',
   ];
   var dataset = Map<String, String>.identity();
 
@@ -79,7 +82,7 @@ class MyHomePage extends StatefulWidget {
 
   final Object data = '';
   int dataIndex = 0;
-  String mode = '0523-금융사고예방지침';
+  String mode = '0523-금융사고예방지침'; // '0523-금융사고예방지침';
   String content = '';
   List testData;
   int testSequence = 0;
@@ -115,7 +118,11 @@ class _MyHomePageState extends State<MyHomePage> {
         widget.testData = exportTestData(widget.dataset[widget.mode]);
       });
     }
-    parseKoreanNumber('123억4천5백6십7만333.333');
+    if (widget.testSequence == 0) {
+      setState(() {
+        widget.testSequence = widget.testSequence + 1;
+      });
+    }
     return Scaffold(
         body: Column(children: [
       taskBar,
@@ -141,7 +148,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     widget.mode = newMode;
                     widget.testData = exportTestData(widget.dataset[newMode]);
                     widget.testSequence = widget.testSequence + 1;
-                  }))
+                  })),
+          Text(widget.testSequence.toString())
           //TypingTest1(testCase: dataset[0]),
         ]),
         decoration: BoxDecoration(border: Border(top: BorderSide(width: 1))),

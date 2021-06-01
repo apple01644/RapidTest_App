@@ -9,6 +9,10 @@ const paper_text_style_hidden = TextStyle(
     fontFamily: 'NanumGothicCoding', fontSize: 32, color: Color(0xFFEEEEEE));
 const paper_text_style_blank_button = TextStyle(
     fontFamily: 'NanumGothicCoding', fontSize: 28, color: Color(0xFF333333));
+const paper_text_style_choose_button = TextStyle(
+    fontFamily: 'NanumGothicCoding', fontSize: 16, color: Color(0xFF333333));
+const paper_text_style_number_button = TextStyle(
+    fontFamily: 'NanumGothicCoding', fontSize: 9, color: Color(0xFF333333));
 
 bool isHangulSyllables(String A) {
   return A.codeUnitAt(0) >= 0xAC00 && A.codeUnitAt(0) <= 0xD7AF;
@@ -64,12 +68,12 @@ class TestNumber {
 }
 
 class TestUnorderedSet {
-  List<String> answer = [];
+  List<String> answers = [];
   List<String> wrongs = [];
 }
 
 class TestOrderedSet {
-  List<String> answer = [];
+  List<String> answers = [];
   List<String> wrongs = [];
 }
 
@@ -301,7 +305,7 @@ List exportTestData(String string) {
       } else if (ch == ',' || ch == ';') {
         mode = 'unordered_set';
         testUnorderedSet = TestUnorderedSet();
-        testUnorderedSet.answer.add(buffer);
+        testUnorderedSet.answers.add(buffer);
         if (ch == ';') putWrong = true;
         buffer = '';
       } else if (ch == '}') {
@@ -316,14 +320,14 @@ List exportTestData(String string) {
         if (putWrong)
           testOrderedSet.wrongs.add(buffer);
         else
-          testOrderedSet.answer.add(buffer);
+          testOrderedSet.answers.add(buffer);
         if (ch == ';') putWrong = true;
         buffer = '';
       } else if (ch == '}') {
         if (putWrong)
           testOrderedSet.wrongs.add(buffer);
         else
-          testOrderedSet.answer.add(buffer);
+          testOrderedSet.answers.add(buffer);
         if (ch == ';') putWrong = true;
         buffer = '';
         mode = 'plain';
@@ -335,14 +339,14 @@ List exportTestData(String string) {
         if (putWrong)
           testUnorderedSet.wrongs.add(buffer);
         else
-          testUnorderedSet.answer.add(buffer);
+          testUnorderedSet.answers.add(buffer);
         if (ch == ';') putWrong = true;
         buffer = '';
       } else if (ch == '}') {
         if (putWrong)
           testUnorderedSet.wrongs.add(buffer);
         else
-          testUnorderedSet.answer.add(buffer);
+          testUnorderedSet.answers.add(buffer);
         if (ch == ';') putWrong = true;
         buffer = '';
         mode = 'plain';

@@ -31,7 +31,6 @@ class Test extends StatefulWidget {
   List<Object> answerList = [];
   List<bool> answeredFlagList = [];
   int currentAnswerSeq = 0;
-  Object currentAnswerData;
 
   Test({Key key, this.testData, this.seq}) : super(key: key);
 
@@ -49,7 +48,9 @@ class TestState extends State<Test> {
   @override
   didUpdateWidget(covariant Test oldWidget) {
     super.didUpdateWidget(oldWidget);
+
     if (oldWidget.seq == widget.seq) return;
+
     buildTest();
   }
 
@@ -65,6 +66,7 @@ class TestState extends State<Test> {
         }
       }
       setState(() {
+        widget.currentAnswerSeq = 0;
         widget.answeredFlagList = newAnsweredFlagList;
         widget.answerList = newAnswerList;
       });
@@ -91,8 +93,8 @@ class TestState extends State<Test> {
           spanItems.add(Container(
               child: Text(e), margin: EdgeInsetsDirectional.only(top: 2)));
       } else {
-        print(widget.answeredFlagList.length);
-        if (widget.answeredFlagList[answerSeq]) {
+        if (widget.answeredFlagList.length > 0 &&
+            widget.answeredFlagList[answerSeq]) {
           String text = '!';
           if (e is TestTyping)
             text = e.answer;
@@ -100,13 +102,13 @@ class TestState extends State<Test> {
             text = formatKoreanNumber(e.answer);
           else if (e is TestUnorderedSet) {
             text = '';
-            for (String answer in e.answer) {
+            for (String answer in e.answers) {
               if (text.length > 0) text += ', ';
               text += answer;
             }
           } else if (e is TestOrderedSet) {
             text = '';
-            for (String answer in e.answer) {
+            for (String answer in e.answers) {
               if (text.length > 0) text += '→';
               text += answer;
             }
@@ -120,6 +122,7 @@ class TestState extends State<Test> {
       }
     }
 
+    if (widget.answerList.length == 0) buildTest();
     return Row(children: <Widget>[
       Container(
           child: SingleChildScrollView(
@@ -127,15 +130,25 @@ class TestState extends State<Test> {
             padding: EdgeInsets.only(left: 30),
           ),
           width: 600),
-      Expanded(child: Container(child: TestControl(onAnswered: () {
-        setState(() {
-          if (widget.currentAnswerSeq < widget.answerList.length) {
-            widget.answeredFlagList[widget.currentAnswerSeq] = true;
-            if (widget.currentAnswerSeq + 1 < widget.answerList.length)
-              widget.currentAnswerSeq = widget.currentAnswerSeq + 1;
-          }
-        });
-      })))
+      Expanded(
+          child: Container(
+              child: TestControl(
+                  testSeq: widget.testData == null
+                      ? -widget.currentAnswerSeq - 1
+                      : widget.currentAnswerSeq,
+                  testData: (widget.currentAnswerSeq < widget.answerList.length
+                      ? widget.answerList[widget.currentAnswerSeq]
+                      : null),
+                  onAnswered: () {
+                    setState(() {
+                      if (widget.currentAnswerSeq < widget.answerList.length) {
+                        widget.answeredFlagList[widget.currentAnswerSeq] = true;
+                        if (widget.currentAnswerSeq + 1 <
+                            widget.answerList.length)
+                          widget.currentAnswerSeq = widget.currentAnswerSeq + 1;
+                      }
+                    });
+                  })))
     ]);
   }
 }
