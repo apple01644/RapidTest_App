@@ -26,6 +26,7 @@ void main() async {
     '0529-주택담보대출의 이해',
     '0531-예금신규',
     '0531-주택청약상품',
+    '0602-수신총칙'
   ];
   var dataset = Map<String, String>.identity();
 

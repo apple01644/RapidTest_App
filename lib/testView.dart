@@ -164,7 +164,7 @@ class TestState extends State<Test> {
               if (text.length > 0) text += '→';
               text += answer;
             }
-          }else if (e is TestParallelTyping) {
+          } else if (e is TestParallelTyping) {
             text = '';
             for (String answer in e.answers) {
               if (text.length > 0) text += ',';
@@ -179,7 +179,9 @@ class TestState extends State<Test> {
         ++answerSeq;
       }
     }
-
+    print(widget.currentAnswerSeq.toString() +
+        ' < ' +
+        widget.answerList.length.toString());
     if (widget.answerList.length == 0) buildTest();
     return Row(children: <Widget>[
       Container(
@@ -201,9 +203,8 @@ class TestState extends State<Test> {
                     setState(() {
                       if (widget.currentAnswerSeq < widget.answerList.length) {
                         widget.answeredFlagList[widget.currentAnswerSeq] = true;
-                        if (widget.currentAnswerSeq + 1 <
-                            widget.answerList.length)
-                          widget.currentAnswerSeq = widget.currentAnswerSeq + 1;
+
+                        widget.currentAnswerSeq = widget.currentAnswerSeq + 1;
                       }
                     });
                   })))

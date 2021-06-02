@@ -112,6 +112,8 @@ class TestParallelTypingControlState extends State<TestParallelTypingControl> {
     for (String text in widget.parallelTypingData) {
       buttonList.add(buildBlankButton(text, (idx) {
         setState(() {
+          if (widget.parallelTypingButtonStates[idx] !=
+              TestAnswerButtonState.Normal) return;
           bool answered = false;
           Map<int, int> mapByAnswerIndex = {};
           for (int x = 0; x < widget.parallelTypingAnswer.length; ++x) {
