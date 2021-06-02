@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:quizzer_on_android/quizzer_on_android.dart';
 
 const TypingTestButtonCount = 42;
-enum TypingTestButtonState { Normal, Answered, Wrong }
 
 class TestTypingControl extends StatefulWidget {
   final Function onAnswered;
@@ -15,7 +14,7 @@ class TestTypingControl extends StatefulWidget {
   TestTypingControl({Key key, this.onAnswered, this.testData, this.testSeq})
       : super(key: key);
   List<String> typingData;
-  List<TypingTestButtonState> typingButtonStates;
+  List<TestAnswerButtonState> typingButtonStates;
   String typingAnswerDisplay = '';
 
   @override
@@ -23,13 +22,13 @@ class TestTypingControl extends StatefulWidget {
 }
 
 Widget buildBlankButton(
-    String content, Function onPressed, int idx, TypingTestButtonState state) {
+    String content, Function onPressed, int idx, TestAnswerButtonState state) {
   Color backgroundColor;
-  if (state == TypingTestButtonState.Normal)
+  if (state == TestAnswerButtonState.Normal)
     backgroundColor = Color(0xFFFFFFFF);
-  else if (state == TypingTestButtonState.Answered)
+  else if (state == TestAnswerButtonState.Answered)
     backgroundColor = Color(0xFF80E080);
-  else if (state == TypingTestButtonState.Wrong)
+  else if (state == TestAnswerButtonState.Wrong)
     backgroundColor = Color(0xFFE08080);
   return Container(
     child: ElevatedButton(
@@ -45,7 +44,8 @@ Widget buildBlankButton(
             alignment: Alignment.center,
             backgroundColor: backgroundColor,
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8))))),
+                borderRadius: BorderRadius.all(Radius.circular(8))),
+            padding: EdgeInsets.all(0))),
     width: 35,
     height: 35,
     margin: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
@@ -72,7 +72,7 @@ class TestTypingControlState extends State<TestTypingControl> {
 
   buildTestData() {
     List<String> typingButtonData = [];
-    List<TypingTestButtonState> typingButtonStates = [];
+    List<TestAnswerButtonState> typingButtonStates = [];
     for (int x = 0; x < widget.testData.answer.length; ++x) {
       typingButtonData.add(widget.testData.answer[x]);
     }
@@ -89,7 +89,7 @@ class TestTypingControlState extends State<TestTypingControl> {
     typingButtonData.sort();
 
     for (int x = 0; x < TypingTestButtonCount; ++x) {
-      typingButtonStates.add(TypingTestButtonState.Normal);
+      typingButtonStates.add(TestAnswerButtonState.Normal);
     }
 
     setState(() {
@@ -110,19 +110,19 @@ class TestTypingControlState extends State<TestTypingControl> {
         setState(() {
           if (widget.typingAnswerDisplay.length <
                   widget.testData.answer.length &&
-              widget.typingButtonStates[idx] == TypingTestButtonState.Normal) {
+              widget.typingButtonStates[idx] == TestAnswerButtonState.Normal) {
             if (widget.testData.answer[widget.typingAnswerDisplay.length] ==
                 widget.typingData[idx]) {
               widget.typingAnswerDisplay += widget.typingData[idx];
               if (widget.typingAnswerDisplay.length ==
                   widget.testData.answer.length) widget.onAnswered();
-              widget.typingButtonStates[idx] = TypingTestButtonState.Answered;
+              widget.typingButtonStates[idx] = TestAnswerButtonState.Answered;
               for (int x = 0; x < TypingTestButtonCount; ++x) {
-                if (widget.typingButtonStates[x] == TypingTestButtonState.Wrong)
-                  widget.typingButtonStates[x] = TypingTestButtonState.Normal;
+                if (widget.typingButtonStates[x] == TestAnswerButtonState.Wrong)
+                  widget.typingButtonStates[x] = TestAnswerButtonState.Normal;
               }
             } else
-              widget.typingButtonStates[idx] = TypingTestButtonState.Wrong;
+              widget.typingButtonStates[idx] = TestAnswerButtonState.Wrong;
           }
         });
       }, x, widget.typingButtonStates[x]));
@@ -140,23 +140,3 @@ class TestTypingControlState extends State<TestTypingControl> {
     ]);
   }
 }
-
-/*else if (widget.testData is TestNumber) {
-        text = formatKoreanNumber(widget.testData.answer);
-        control = Text(text);
-      } else if (widget.testData is TestUnorderedSet) {
-        text = '';
-        for (String answer in widget.testData.answer) {
-          if (text.length > 0) text += ', ';
-          text += answer;
-        }
-        control = Text(text);
-      } else if (widget.testData is TestOrderedSet) {
-        text = '';
-        for (String answer in widget.testData.answer) {
-          if (text.length > 0) text += '→';
-          text += answer;
-        }
-        control = Text(text);
-      }
-    }*/

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:quizzer_on_android/quizzer_on_android.dart';
 
 Widget buildNumberButton(String content, Function onPressed, double delta) {
@@ -17,10 +18,11 @@ Widget buildNumberButton(String content, Function onPressed, double delta) {
             alignment: Alignment.center,
             backgroundColor: Color(0xFFFFFFFF),
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2))))),
+                borderRadius: BorderRadius.all(Radius.circular(2))),
+            padding: EdgeInsets.all(0))),
     width: 56,
-    height: 15,
-    margin: EdgeInsets.symmetric(horizontal: 1, vertical: 2),
+    height: 19.6,
+    margin: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
   );
 }
 
@@ -30,17 +32,18 @@ Widget buildFunctionButton(String content, Function onPressed) {
         onPressed: onPressed,
         child: Text(
           content,
-          style: paper_text_style_number_button,
+          style: paper_text_style_choose_button,
           textAlign: TextAlign.center,
         ),
         style: OutlinedButton.styleFrom(
             alignment: Alignment.center,
             backgroundColor: Color(0xFFFFFFFF),
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2))))),
+                borderRadius: BorderRadius.all(Radius.circular(2))),
+            padding: EdgeInsets.all(0))),
     width: 56,
-    height: 36.5,
-    margin: EdgeInsets.symmetric(horizontal: 1, vertical: 2),
+    height: 18,
+    margin: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
   );
 }
 
@@ -124,21 +127,29 @@ class TestNumberControlState extends State<TestNumberControl> {
           ),
           buildFunctionButton(widget.errorText, () {
             setState(() {
-              if (widget.answerNumber > widget.testData.answer * 2)
+              if (widget.answerNumber > widget.testData.answer * 3)
                 setState(() {
-                  widget.errorText = '너무 많음';
+                  widget.errorText = '↓↓↓';
+                });
+              else if (widget.answerNumber * 3 < widget.testData.answer)
+                setState(() {
+                  widget.errorText = '↑↑↑';
+                });
+              else if (widget.answerNumber > widget.testData.answer * 2)
+                setState(() {
+                  widget.errorText = '↓↓';
                 });
               else if (widget.answerNumber * 2 < widget.testData.answer)
                 setState(() {
-                  widget.errorText = '너무 적음';
+                  widget.errorText = '↑↑';
                 });
               else if (widget.answerNumber > widget.testData.answer)
                 setState(() {
-                  widget.errorText = '많음';
+                  widget.errorText = '↓';
                 });
               else if (widget.answerNumber < widget.testData.answer)
                 setState(() {
-                  widget.errorText = '적음';
+                  widget.errorText = '↑';
                 });
               else
                 widget.onAnswered();
@@ -147,7 +158,9 @@ class TestNumberControlState extends State<TestNumberControl> {
         ]),
         Column(children: [
           Text(
-              widget.answerNumber.toString().replaceFirst(RegExp(r'\.0+$'), ''),
+              //widget.answerNumber.toString().replaceFirst(RegExp(r'\.0+$'), '')
+              NumberFormat().format(widget.answerNumber)
+            ,
               style: TextStyle(fontSize: 20)),
           Text(
             formatKoreanNumber(widget.answerNumber),

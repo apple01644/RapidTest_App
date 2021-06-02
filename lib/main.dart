@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:quizzer_on_android/quizzer_on_android.dart';
-import 'package:quizzer_on_android/test.dart';
+import 'package:quizzer_on_android/testView.dart';
 
 Future<String> loadAsset(String filename) async {
   return await rootBundle.loadString('assets/text/' + filename + '.txt');

@@ -55,7 +55,8 @@ enum TestDataType {
   Typing, //[A;B;C]
   Number, //{A}
   UnorderedSet, //{A,B,C;D,E}
-  OrderedSet //{@A,B,C;D,E}
+  OrderedSet, //{@A,B,C;D,E}
+  ParallelTyping, //{A,B,C,D,E}
 }
 
 class TestTyping {
@@ -75,6 +76,10 @@ class TestUnorderedSet {
 class TestOrderedSet {
   List<String> answers = [];
   List<String> wrongs = [];
+}
+
+class TestParallelTyping {
+  List<String> answers = [];
 }
 
 double parseKoreanNumber(String text) {
@@ -270,6 +275,7 @@ List exportTestData(String string) {
   TestTyping testTyping;
   TestUnorderedSet testUnorderedSet;
   TestOrderedSet testOrderedSet;
+  TestParallelTyping testParallelTyping;
 
   String mode = 'plain';
   bool putWrong = false;
@@ -302,11 +308,16 @@ List exportTestData(String string) {
         mode = 'ordered_set';
         testOrderedSet = TestOrderedSet();
         buffer = '';
-      } else if (ch == ',' || ch == ';') {
+      } else if (ch == ',') {
+        mode = 'parallel_typing';
+        testParallelTyping = TestParallelTyping();
+        testParallelTyping.answers.add(buffer);
+        buffer = '';
+      } else if (ch == ';') {
         mode = 'unordered_set';
         testUnorderedSet = TestUnorderedSet();
         testUnorderedSet.answers.add(buffer);
-        if (ch == ';') putWrong = true;
+        putWrong = true;
         buffer = '';
       } else if (ch == '}') {
         testNumber.answer = parseKoreanNumber(buffer);
@@ -353,6 +364,23 @@ List exportTestData(String string) {
         result.add(testUnorderedSet);
       } else
         buffer += ch;
+    } else if (mode == 'parallel_typing') {
+      if (ch == ',') {
+        testParallelTyping.answers.add(buffer);
+        buffer = '';
+      } else if (ch == ';') {
+        mode = 'unordered_set';
+        testUnorderedSet = TestUnorderedSet();
+        testUnorderedSet.answers = testParallelTyping.answers;
+        putWrong = true;
+        buffer = '';
+      } else if (ch == '}') {
+        testParallelTyping.answers.add(buffer);
+        result.add(testParallelTyping);
+        buffer = '';
+        mode = 'plain';
+      } else
+        buffer += ch;
     } else if (mode == 'typing') {
       if (ch == ']') {
         if (testTyping.answer != null)
@@ -384,3 +412,5 @@ List exportTestData(String string) {
 
   return result;
 }
+
+enum TestAnswerButtonState { Normal, Answered, Wrong }

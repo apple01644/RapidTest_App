@@ -1,7 +1,59 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quizzer_on_android/quizzer_on_android.dart';
-import 'package:quizzer_on_android/testControl.dart';
+import 'package:quizzer_on_android/testNumberControl.dart';
+import 'package:quizzer_on_android/testOrderedSetControl.dart';
+import 'package:quizzer_on_android/testParallelTyping.dart';
+import 'package:quizzer_on_android/testTypingControl.dart';
+import 'package:quizzer_on_android/testUnorderedSetControl.dart';
+
+Widget TestControl({Function onAnswered, var testData, int testSeq}) {
+  Widget control;
+
+  if (testData == null)
+    control = Text('Done!');
+  else if (testData is TestTyping) {
+    control = TestTypingControl(
+      testData: testData,
+      testSeq: testSeq,
+      onAnswered: onAnswered,
+    );
+  } else if (testData is TestUnorderedSet) {
+    control = TestUnorderedSetControl(
+      testData: testData,
+      testSeq: testSeq,
+      onAnswered: onAnswered,
+    );
+  } else if (testData is TestNumber) {
+    control = TestNumberControl(
+      testData: testData,
+      testSeq: testSeq,
+      onAnswered: onAnswered,
+    );
+  } else if (testData is TestOrderedSet) {
+    control = TestOrderedSetControl(
+      testData: testData,
+      testSeq: testSeq,
+      onAnswered: onAnswered,
+    );
+  } else if (testData is TestParallelTyping) {
+    control = TestParallelTypingControl(
+      testData: testData,
+      testSeq: testSeq,
+      onAnswered: onAnswered,
+    );
+  } else {
+    control = Text(testData.runtimeType.toString());
+  }
+
+  return Column(children: [
+    Container(child: control, height: 290),
+    TextButton(
+      child: Text('Pass'),
+      onPressed: () => onAnswered(),
+    )
+  ]);
+}
 
 Widget unansweredBlank({highlight = false}) {
   return Container(
@@ -110,6 +162,12 @@ class TestState extends State<Test> {
             text = '';
             for (String answer in e.answers) {
               if (text.length > 0) text += '→';
+              text += answer;
+            }
+          }else if (e is TestParallelTyping) {
+            text = '';
+            for (String answer in e.answers) {
+              if (text.length > 0) text += ',';
               text += answer;
             }
           }
