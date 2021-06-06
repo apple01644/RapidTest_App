@@ -94,17 +94,26 @@ double parseKoreanNumber(String text) {
 
     index = subpartition.indexOf('천');
     if (index != -1) {
-      x += double.parse(subpartition.substring(0, index)) * 1000;
+      if (index > 0)
+        x += double.parse(subpartition.substring(0, index)) * 1000;
+      else
+        x += 1000;
       subpartition = subpartition.substring(index + 1);
     }
     index = subpartition.indexOf('백');
     if (index != -1) {
-      x += double.parse(subpartition.substring(0, index)) * 100;
+      if (index > 0)
+        x += double.parse(subpartition.substring(0, index)) * 100;
+      else
+        x += 100;
       subpartition = subpartition.substring(index + 1);
     }
     index = subpartition.indexOf('십');
     if (index != -1) {
-      x += double.parse(subpartition.substring(0, index)) * 10;
+      if (index > 0)
+        x += double.parse(subpartition.substring(0, index)) * 10;
+      else
+        x += 10;
       subpartition = subpartition.substring(index + 1);
     }
     if (subpartition.length > 0) x += double.parse(subpartition);
@@ -119,17 +128,26 @@ double parseKoreanNumber(String text) {
 
     index = subpartition.indexOf('천');
     if (index != -1) {
-      x += double.parse(subpartition.substring(0, index)) * 1000;
+      if (index > 0)
+        x += double.parse(subpartition.substring(0, index)) * 1000;
+      else
+        x += 1000;
       subpartition = subpartition.substring(index + 1);
     }
     index = subpartition.indexOf('백');
     if (index != -1) {
-      x += double.parse(subpartition.substring(0, index)) * 100;
+      if (index > 0)
+        x += double.parse(subpartition.substring(0, index)) * 100;
+      else
+        x += 100;
       subpartition = subpartition.substring(index + 1);
     }
     index = subpartition.indexOf('십');
     if (index != -1) {
-      x += double.parse(subpartition.substring(0, index)) * 10;
+      if (index > 0)
+        x += double.parse(subpartition.substring(0, index)) * 10;
+      else
+        x += 10;
       subpartition = subpartition.substring(index + 1);
     }
     if (subpartition.length > 0) x += double.parse(subpartition);
@@ -144,17 +162,26 @@ double parseKoreanNumber(String text) {
 
     index = subpartition.indexOf('천');
     if (index != -1) {
-      x += double.parse(subpartition.substring(0, index)) * 1000;
+      if (index > 0)
+        x += double.parse(subpartition.substring(0, index)) * 1000;
+      else
+        x += 1000;
       subpartition = subpartition.substring(index + 1);
     }
     index = subpartition.indexOf('백');
     if (index != -1) {
-      x += double.parse(subpartition.substring(0, index)) * 100;
+      if (index > 0)
+        x += double.parse(subpartition.substring(0, index)) * 100;
+      else
+        x += 100;
       subpartition = subpartition.substring(index + 1);
     }
     index = subpartition.indexOf('십');
     if (index != -1) {
-      x += double.parse(subpartition.substring(0, index)) * 10;
+      if (index > 0)
+        x += double.parse(subpartition.substring(0, index)) * 10;
+      else
+        x += 10;
       subpartition = subpartition.substring(index + 1);
     }
     if (subpartition.length > 0) x += double.parse(subpartition);
@@ -372,6 +399,7 @@ List exportTestData(String string) {
         mode = 'unordered_set';
         testUnorderedSet = TestUnorderedSet();
         testUnorderedSet.answers = testParallelTyping.answers;
+        testUnorderedSet.answers.add(buffer);
         putWrong = true;
         buffer = '';
       } else if (ch == '}') {

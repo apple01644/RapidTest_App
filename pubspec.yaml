@@ -57,6 +57,10 @@ flutter:
     - assets/text/0531-예금신규.txt
     - assets/text/0531-주택청약상품.txt
     - assets/text/0602-수신총칙.txt
+    - assets/text/0604-당좌,어음.txt
+    - assets/text/0605-신탁.txt
+    - assets/text/0605-퇴직연금 업무.txt
+    - assets/text/0606-펀드.txt
   #  - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
