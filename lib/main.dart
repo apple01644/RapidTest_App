@@ -31,6 +31,7 @@ void main() async {
     '0605-신탁',
     '0605-퇴직연금 업무',
     '0606-펀드',
+    '0607-방카슈랑스',
   ];
   var dataset = Map<String, String>.identity();
 
@@ -150,6 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
               items: dropdownItems,
               value: widget.mode,
               onChanged: (String newMode) => setState(() {
+                    widget.dataIndex =
+                        widget.dataset.keys.toList().indexOf(newMode);
                     widget.mode = newMode;
                     widget.testData = exportTestData(widget.dataset[newMode]);
                     widget.testSequence = widget.testSequence + 1;
