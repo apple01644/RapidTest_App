@@ -32,6 +32,7 @@ void main() async {
     '0605-퇴직연금 업무',
     '0606-펀드',
     '0607-방카슈랑스',
+    '0609-외환 업무'
   ];
   var dataset = Map<String, String>.identity();
 

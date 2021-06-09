@@ -155,9 +155,15 @@ double parseKoreanNumber(String text) {
   }
 
   index = text.indexOf('.');
-  if (index != -1) {
-    String subpartition = text.substring(0, index);
-    text = text.substring(index);
+  {
+    String subpartition;
+    if (index != -1) {
+      subpartition = text.substring(0, index);
+      text = text.substring(index);
+    } else {
+      subpartition = text;
+      text = '';
+    }
     double x = 0;
 
     index = subpartition.indexOf('천');
