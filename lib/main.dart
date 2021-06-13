@@ -1,4 +1,5 @@
 import 'dart:async' show Future;
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,11 @@ void main() async {
     '0605-퇴직연금 업무',
     '0606-펀드',
     '0607-방카슈랑스',
-    '0609-외환 업무'
+    '0609-외환 업무',
+    '0612-신용카드',
+    '0613-대행',
+    '0613-자동이체',
+    '0613-전자금융'
   ];
   var dataset = Map<String, String>.identity();
 
@@ -99,6 +104,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  static Random rand = new Random();
+
   @override
   void initState() {
     super.initState();
@@ -158,7 +165,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     widget.testData = exportTestData(widget.dataset[newMode]);
                     widget.testSequence = widget.testSequence + 1;
                   })),
-          Text(widget.testSequence.toString())
+          Expanded(
+              child: Container(
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  widget.dataIndex = rand.nextInt(widget.dataset.length);
+                  widget.mode = widget.dataset.keys.elementAt(widget.dataIndex);
+                  widget.testData = exportTestData(widget.dataset[widget.mode]);
+                  widget.testSequence = widget.testSequence + 1;
+                });
+              },
+              child: Text('Random'),
+            ),
+            alignment: Alignment.centerRight,
+          ))
           //TypingTest1(testCase: dataset[0]),
         ]),
         decoration: BoxDecoration(border: Border(top: BorderSide(width: 1))),

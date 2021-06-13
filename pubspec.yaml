@@ -63,6 +63,10 @@ flutter:
     - assets/text/0606-펀드.txt
     - assets/text/0607-방카슈랑스.txt
     - assets/text/0609-외환 업무.txt
+    - assets/text/0612-신용카드.txt
+    - assets/text/0613-대행.txt
+    - assets/text/0613-자동이체.txt
+    - assets/text/0613-전자금융.txt
   #  - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
