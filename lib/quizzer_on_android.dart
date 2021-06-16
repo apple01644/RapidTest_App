@@ -334,6 +334,10 @@ List exportTestData(String string) {
         result.add('\n');
         buffer = '';
       } else {
+        if (buffer.length > 0 && buffer.characters.elementAt(0) != '#') {
+          result.add(buffer);
+          buffer = '';
+        }
         buffer += ch;
       }
     } else if (mode == 'number') {

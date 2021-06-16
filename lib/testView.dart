@@ -183,6 +183,7 @@ class TestState extends State<Test> {
         ' < ' +
         widget.answerList.length.toString());
     if (widget.answerList.length == 0) buildTest();
+
     return Row(children: <Widget>[
       Container(
           child: SingleChildScrollView(
